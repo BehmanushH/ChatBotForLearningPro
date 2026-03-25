@@ -7,6 +7,7 @@ from typing import Optional
 import requests
 from dotenv import load_dotenv
 
+# Load .env for local development
 load_dotenv()
 
 
@@ -14,11 +15,17 @@ class LLMHandler:
     """Single-model handler that talks to a real Hugging Face model."""
 
     def __init__(self) -> None:
+        # Try to get token from Streamlit secrets (cloud) or .env (local)
+        try:
+            import streamlit as st
+            self.api_token = st.secrets.get("HF_TOKEN", "").strip()
+        except (ImportError, AttributeError):
+            self.api_token = os.getenv("HF_TOKEN", "").strip()
+        
         # Use a chat-compatible open model on Hugging Face Router.
         self.model_id = os.getenv("HF_MODEL_ID", "Qwen/Qwen2.5-7B-Instruct")
         self.model_name = "Qwen2.5-7B-Instruct"
         self.api_url = "https://router.huggingface.co/v1/chat/completions"
-        self.api_token = os.getenv("HF_TOKEN", "").strip()
         self.is_loaded = bool(self.api_token)
         self.headers = {"Authorization": f"Bearer {self.api_token}"} if self.api_token else {}
         self.last_usage: dict[str, int] = {}

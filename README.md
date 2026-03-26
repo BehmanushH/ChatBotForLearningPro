@@ -11,7 +11,7 @@ BanuCode is a bilingual chatbot UI (English/Dari) for programming learning and e
 ## Quick run (Windows)
 
 ```powershell
-cd "C:\Users\I2SC-Hamayoon\Documents\GitHub\SampleForOpenLLMs"
+cd "C:\Users\GitHub\SampleForOpenLLMs"
 python -m venv .venv
 .venv\Scripts\python -m pip install --upgrade pip
 .venv\Scripts\python -m pip install -r requirements.txt
